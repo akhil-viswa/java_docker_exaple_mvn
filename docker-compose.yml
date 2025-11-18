@@ -1,7 +1,7 @@
 version: '3.8'
 services:
   java_docker_exaple_mvn:
-    build: .
+    image: akhil/java_docker_exaple_mvn:latest
     container_name: java_docker_exaple_mvn
     ports:
       - "8080:8080"
@@ -13,8 +13,6 @@ services:
     container_name: prometheus
     volumes:
       - ./prometheus.yml:/etc/prometheus/prometheus.yml
-    command:
-      - '--config.file=/etc/prometheus/prometheus.yml'
     ports:
       - "9090:9090"
     networks:
@@ -29,20 +27,20 @@ services:
       - monitoring
     depends_on:
       - prometheus
+
   jenkins:
     image: jenkins/jenkins:lts-jdk17
     container_name: jenkins
     user: root
     ports:
-      - "8090:8090"     # Jenkins UI
-      - "50000:50000"   # For agents (optional)
+      - "8090:8090"
+      - "50000:50000"
     volumes:
       - ./jenkins_home:/var/jenkins_home
-      - /var/run/docker.sock:/var/run/docker.sock  # to allow Jenkins to run Docker commands
+      - /var/run/docker.sock:/var/run/docker.sock
     environment:
       - JAVA_OPTS=-Djenkins.install.runSetupWizard=false
     restart: unless-stopped
-
 
 networks:
   monitoring:
