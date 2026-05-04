@@ -1,3 +1,11 @@
 image:
   repository: akhilviswa/java_docker_exaple_mvn
   tag: latest
+
+replicaCount: 1
+
+service:
+  type: NodePort
+  port: 8080
+  targetPort: 8080
+  nodePort: 30080
